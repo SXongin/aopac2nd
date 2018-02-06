@@ -1,3 +1,7 @@
+/*
+*输入3个整数，输出它们的平均值， 保留3位小数
+*/
+
 #include <cstdio>
 
 int main(void){
