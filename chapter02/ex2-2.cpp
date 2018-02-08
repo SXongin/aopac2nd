@@ -14,8 +14,8 @@
 
 int main(void){
 #ifdef LOCAL
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    freopen("input2-2.txt", "r", stdin);
+    freopen("output2-2.txt", "w", stdout);
 #endif
     int a, b, c, kase = 1;
     while(scanf("%d", &a) == 1){
