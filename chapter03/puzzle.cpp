@@ -29,6 +29,7 @@ int main(void){
 #endif
     int space_i = -1;
     int space_j = -1;
+    int c;
     for(int i = 0; i < scale; ++i){
         for(int j = 0; j < scale; ++j){
             p[i][j] = getchar();
@@ -37,10 +38,8 @@ int main(void){
                 space_j = j;
             }
         }
-        getchar();
-        getchar();
+        while(((c=getchar()) != EOF) && (c != '\n'));
     }
-    int c;
     while(((c=getchar()) != EOF) && (c!= '0')){
         switch(c){
         case 'A': {
