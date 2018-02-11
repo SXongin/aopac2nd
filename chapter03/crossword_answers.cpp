@@ -8,7 +8,7 @@
 #define LOCAL
 #include <cstdio>
 #define MAX 10
-char cw[MAX][MAX];
+char cw[MAX][MAX + 1];//for '\0'
 
 int main(void){
 #ifdef LOCAL
