@@ -42,7 +42,7 @@ int main(void){
         for(; q > 0; --q){
             scanf("%d", &x);
             auto it = lower_bound(marbles.cbegin(), marbles.cend(), x);
-            if(*it == x){
+            if(it != marbles.cend() && *it == x){
                 printf("%d found at %d\n", x, it - marbles.cbegin() + 1);
             }else{
                 printf("%d not found\n", x);
