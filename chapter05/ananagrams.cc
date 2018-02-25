@@ -3,6 +3,7 @@
 * 字母不分大小写，但在输出时应保留输入中的大小写，按字典序进行排列。
 */
 
+#define LOCAL
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -23,6 +24,9 @@ string& stand(string& word){
 }
 
 int main(void){
+#ifdef LOCAL
+    freopen("ananagrams_input.txt", "r", stdin);
+#endif
     std::vector<string> words;
     string word;
     std::map<string, int> cnt;
