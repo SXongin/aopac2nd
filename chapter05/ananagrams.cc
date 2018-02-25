@@ -15,7 +15,7 @@ using std::cout;
 using std::cin;
 using std::string;
 
-string& stand(string& word){
+string stand(string word){
     for(auto& c: word){
         c = tolower(c);
     }
@@ -33,8 +33,7 @@ int main(void){
     while(cin>>word){
         if(word[0] == '#') break;   
         words.push_back(word);
-        stand(word);
-        ++cnt[word];
+        ++cnt[stand(word)];
     }
     std::multiset<string> ans;
     for(auto& word : words){
