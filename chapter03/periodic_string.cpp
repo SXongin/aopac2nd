@@ -9,31 +9,38 @@
 #define MAXN 100
 char s[MAXN];
 int main(void){
-    int c;
-    int i = 0;
-    int compare = 0;
-    int pattern = 1;
-    if(((c=getchar()) != EOF) && (c!='\n')){
-        s[i++] = c;
-    }else{
-        return 0;
-    }
-    while(((c=getchar()) != EOF) && (c!='\n') ){
-        s[i++] = c;
-        if(c == s[compare]){
-            ++compare;
-            if(compare == pattern){
-                compare = 0;
+#ifndef ONLINE_JUDGE
+    freopen("periodic_string_input.txt", "r", stdin);
+    freopen("periodic_string_output.txt", "w", stdout);
+#endif
+    int T;
+    scanf("%d", &T);
+    bool first = true;
+    while(T-->0){
+        scanf("%s", s);
+        int length = strlen(s);
+        int period;
+        for(period = 1; period <= length/2; ++period){
+            if(length%period != 0) continue;
+            int times = length/period;
+            bool ok = true;
+            for(int i = 1; i < times; ++i){
+                if(strncmp(&s[0], &s[i*period], period) != 0){
+                    ok = false;
+                    break;
+                }
             }
-        }else{
-            compare = 0;
-            pattern = i;
+            if(ok) break;
         }
-    }
-    if(pattern < strlen(s) && compare == 0){
-        printf("%d\n", pattern);
-    }else{
-        printf("not periodic\n");
+        
+        if(period > length/2) period = length;
+
+        if(first){
+            first = false;
+        }else{
+            printf("\n");
+        }
+        printf("%d\n", period);
     }
     return 0;
 }
