@@ -6,28 +6,41 @@
 #include <cctype> /* isdigit() */
 
 int main(void){
-    double weight = 0;
-    double current = 0;
-    int number = 0;
-    int c;
-    while((c = getchar()) != EOF){
-        if(isdigit(c)){
-            number = number*10 + (c - '0');
-        }else{
-            if(number!=0){
-                weight += (number-1)*current;
-                number = 0;
+#ifndef ONLINE_JUDGE
+    freopen("molar_mass_input.txt", "r", stdin);
+    freopen("molar_mass_output.txt", "w", stdout);
+#endif
+    int T;
+    scanf("%d",&T);
+    while(T!=0 && getchar()!= '\n');
+    while(T>0){
+        --T;
+        double weight = 0;
+        double current = 0;
+        int number = 0;
+        int c;
+        while((c = getchar()) != EOF && c != '\n'){
+            if(isdigit(c)){
+                number = number*10 + (c - '0');
+            }else{
+                if(number!=0){
+                    weight += (number-1)*current;
+                    number = 0;
+                }
+                switch(c){
+                case 'C': current = 12.01; break;
+                case 'H': current = 1.008; break;
+                case 'O': current = 16.00; break;
+                case 'N': current = 14.01; break;
+                default: current = 0; break;
+                }
+                weight += current;
             }
-            switch(c){
-            case 'C': current = 12.01; break;
-            case 'H': current = 1.008; break;
-            case 'O': current = 16.00; break;
-            case 'N': current = 14.01; break;
-            default: current = 0; break;
-            }
-            weight += current;
         }
+        if(number!=0){
+            weight += (number-1)*current;
+        }
+        printf("%.3f\n", weight);
     }
-    printf("%f\n", weight);
     return 0;
 }
