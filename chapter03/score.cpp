@@ -3,20 +3,32 @@
 * X的得分为0。例如，OOXXOXXOOO的得分为 1+2+0+0+1+0+0+1+2+3。
 */
 
+#define LOCAL
 #include <cstdio>
 
 int main(){
-    int scores = 0;
-    int hits = 0;
-    int c;
-    while((c=getchar()) != EOF){
-        if(c == 'O'){
-            ++hits;
-            scores += hits;
-        }else if(c == 'X'){
-            hits = 0;
-        }
+#ifdef LOCAL
+    freopen("score_input.txt", "r", stdin);
+#endif
+    int T;
+    scanf("%d", &T);
+    while(T!=0 && getchar()!='\n'){
+        ;
     }
-    printf("%d\n", scores);
+    while(T>0){
+        --T;
+        int c;
+        int scores = 0;
+        int hits = 0;
+        while((c=getchar()) != EOF && c != '\n'){
+            if(c == 'O'){
+                ++hits;
+                scores += hits;
+            }else if(c == 'X'){
+                hits = 0;
+            }
+        }
+        printf("%d\n", scores);
+    }
     return 0;
 } 
