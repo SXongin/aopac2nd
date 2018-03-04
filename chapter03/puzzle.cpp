@@ -16,89 +16,120 @@
 * UQHCF
 */
 
-#define LOCAL
 #include <cstdio>
+#include <cctype>
 #define scale 5
 char p[scale][scale];
-const char msg[] = "This puzzle has no final configuration.";
+const char msg[] = "This puzzle has no final configuration.\n";
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("puzzle_input.txt", "r", stdin);
     freopen("puzzle_output.txt", "w", stdout);
 #endif
     int space_i = -1;
     int space_j = -1;
     int c;
-    for(int i = 0; i < scale; ++i){
-        for(int j = 0; j < scale; ++j){
-            p[i][j] = getchar();
-            if(p[i][j] == ' '){
-                space_i = i;
-                space_j = j;
-            }
+    int kase = 1;
+    while((c = getchar())!=EOF && c != 'Z'){
+        if(c == ' '){
+            space_i = 0;
+            space_j = 0;
         }
-        while(((c=getchar()) != EOF) && (c != '\n'));
-    }
-    while(((c=getchar()) != EOF) && (c!= '0')){
-        switch(c){
-        case 'A': {
-            if(space_i - 1 >= 0){
-                char t = p[space_i - 1][space_j];
-                p[space_i - 1][space_j] = p[space_i][space_j];
-                p[space_i][space_j] = t;
-                --space_i;
-            }else{
-                printf(msg);return 0;
+        p[0][0] = c;
+        for(int i = 0; i < scale; ++i){
+            for(int j = 0; j < scale; ++j){
+                if((i == 0)&&(j == 0)) continue;
+                p[i][j] = getchar();
+                if(p[i][j] == ' '){
+                    space_i = i;
+                    space_j = j;
+                }
             }
-            break;
+            while(((c=getchar()) != EOF) && (c != '\n'));
+        }
+        bool ligal = true;
+        char o;
+        while(scanf("%c", &o)){
+            if(isspace(o)) continue;
+            if(o == '0') break;
+            switch(o){
+            case 'A': {
+                if(space_i - 1 >= 0){
+                    char t = p[space_i - 1][space_j];
+                    p[space_i - 1][space_j] = p[space_i][space_j];
+                    p[space_i][space_j] = t;
+                    --space_i;
+                }else{
+                    ligal = false;
+                }
+                break;
+            }
+
+            case 'B': {
+                if(space_i + 1 < scale){
+                    char t = p[space_i + 1][space_j];
+                    p[space_i + 1][space_j] = p[space_i][space_j];
+                    p[space_i][space_j] = t;
+                    ++space_i;
+                }else{
+                    ligal = false;
+                }
+                break;
+            }
+
+            case 'R': {
+                if(space_j + 1 < scale){
+                    char t = p[space_i][space_j + 1];
+                    p[space_i][space_j + 1] = p[space_i][space_j];
+                    p[space_i][space_j] = t;
+                    ++space_j;
+                }else{
+                    ligal = false;
+                }
+                break;
+            }
+
+            case 'L': {
+                if(space_j - 1 >= 0){
+                    char t = p[space_i][space_j - 1];
+                    p[space_i][space_j - 1] = p[space_i][space_j];
+                    p[space_i][space_j] = t;
+                    --space_j;
+                }else{
+                    ligal = false;
+                }
+                break;
+            }
+
+            default: ligal = false; break;
+            }
+            if(!ligal) break;
+        }
+        if(o!='0'){
+            while(((c=getchar()) != EOF) && (c != '0'));
+        }
+            while(((c=getchar()) != EOF) && (c != '\n'));
+        if(kase > 1){
+            printf("\n");
         }
 
-        case 'B': {
-            if(space_i + 1 < scale){
-                char t = p[space_i + 1][space_j];
-                p[space_i + 1][space_j] = p[space_i][space_j];
-                p[space_i][space_j] = t;
-                ++space_i;
-            }else{
-                printf(msg);return 0;
+        printf("Puzzle #%d:\n", kase);
+        ++kase;
+
+        if(!ligal){
+            printf(msg);
+        }else{
+            for(int i = 0; i < scale; ++i){
+                for(int j = 0; j < scale; ++j){
+                    printf("%c", p[i][j]);
+                    if(j != scale - 1){
+                        printf(" ");
+                    }
+                }
+                printf("\n");
             }
-            break;
         }
-
-        case 'R': {
-            if(space_j + 1 < scale){
-                char t = p[space_i][space_j + 1];
-                p[space_i][space_j + 1] = p[space_i][space_j];
-                p[space_i][space_j] = t;
-                ++space_j;
-            }else{
-                printf(msg);return 0;
-            }
-            break;
-        }
-
-        case 'L': {
-            if(space_j - 1 >= 0){
-                char t = p[space_i][space_j - 1];
-                p[space_i][space_j - 1] = p[space_i][space_j];
-                p[space_i][space_j] = t;
-                --space_j;
-            }else{
-                printf(msg);return 0;
-            }
-            break;
-        }
-
-        default: printf(msg);return 0;
-        }
-    }
-
-    for(int i = 0; i < scale; ++i){
-        for(int j = 0; j < scale; ++j){
-            putchar(p[i][j]);
-        }
-        putchar('\n');
     }
     return 0;
 }

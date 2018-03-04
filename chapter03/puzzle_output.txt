@@ -1,5 +1,9 @@
-TRGSJ
-XOKLI
-MDVBN
-WP AE
-UQHCF
+Puzzle #1:
+This puzzle has no final configuration.
+
+Puzzle #2:
+A A A A A
+D D D D D
+S S S S S
+G G G G  
+E E E E G
