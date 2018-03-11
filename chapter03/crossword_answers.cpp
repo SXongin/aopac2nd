@@ -5,60 +5,81 @@
 * 到一个黑格的上边或者整个网格的最下行。
 */
 
-#define LOCAL
 #include <cstdio>
-#define MAX 10
-char cw[MAX][MAX + 1];//for '\0'
+#include <vector>
+#define MAX 10+2
+char cw[MAX][MAX];//for '\0'
+
+struct Word{
+    char cs[MAX];
+    int order;
+};
+
+std::vector<Word> across;
+std::vector<Word> down;
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("crossword_answers_input.txt", "r", stdin);
     freopen("crossword_answers_output.txt", "w", stdout);
 #endif
-    int r,c, game = 1;
+    int r,c, puzzle = 1;
+    bool isfirst = true;
     int isword = 0;
+    across.reserve(MAX*MAX);
+    down.reserve(MAX*MAX);
     while((scanf("%d", &r)==1) && (r > 0) && (scanf("%d", &c)==1) && (c > 0)){
         for(int i = 0; i < r; ++i){
             scanf("%s",cw[i]);
         }
-        printf("Game %d:\n", game);
-        ++game;
-        printf("Across:\n  ");
+        int order = 0;
+        across.clear();
+        down.clear();
+        if(isfirst){
+            isfirst = false;
+        }else{
+            printf("\n");
+        }
+        printf("puzzle #%d:\n", puzzle);
+        ++puzzle;
         for(int i = 0; i < r; ++i){
             for(int j = 0; j < c; ++j){
-                if(cw[i][j] == '*'){
-                    if(isword){
-                        printf("\n  ");
-                        isword = 0;
+                if((cw[i][j] != '*') && ((i-1 < 0 || cw[i-1][j] == '*') || (j-1 < 0 || cw[i][j-1] == '*'))){
+                    ++order;
+                    Word aword;
+                    aword.order = order;
+                    aword.cs[0] = cw[i][j];
+                    if(j-1 < 0 || cw[i][j-1] == '*'){
+                        int index = 1;
+                        while( j+index < c && cw[i][j+index] != '*'){
+                            aword.cs[index] = cw[i][j+index];
+                            ++index;
+                        }
+                        aword.cs[index] = '\0';
+                        across.push_back(aword);
                     }
-                }else{
-                    putchar(cw[i][j]);
-                    isword = 1;
+                    Word dword;
+                    dword.order = order;
+                    dword.cs[0] = cw[i][j];
+                    if(i-1 < 0 || cw[i-1][j] == '*'){
+                        int index = 1;
+                        while( i+index < r && cw[i+index][j] != '*'){
+                            dword.cs[index] = cw[i+index][j];
+                            ++index;
+                        }
+                        dword.cs[index] = '\0';
+                        down.push_back(dword);
+                    }
                 }
-            }
-            if(isword){
-                printf("\n  ");
-                isword = 0;
             }
         }
-
-        printf("\nDown:\n  ");
-        for(int j = 0; j < c; ++ j){
-            for(int i = 0; i < r; ++i){
-                if(cw[i][j] == '*'){
-                    if(isword){
-                        printf("\n  ");
-                        isword = 0;
-                    }
-                }else{
-                    putchar(cw[i][j]);
-                    isword = 1;
-                }
-            }
-            if(isword){
-                printf("\n  ");
-                isword = 0;
-            }
+        printf("Across\n");
+        for(auto &answer : across){
+            printf("%3d.%s\n", answer.order, answer.cs);
+        }
+        printf("Down\n");
+        for(auto &answer : down){
+            printf("%3d.%s\n", answer.order, answer.cs);
         }
     }
     return 0;
