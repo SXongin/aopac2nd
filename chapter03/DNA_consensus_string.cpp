@@ -11,7 +11,6 @@
 * TAAGATGT
 */
 
-#define LOCAL
 #include <cstdio>
 
 #define MAXR 50
@@ -20,37 +19,41 @@
 char DNAs[MAXR][MAXC];
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("DNA_consensus_string_input.txt", "r", stdin);
     freopen("DNA_consensus_string_output.txt", "w", stdout);
 #endif
-    int m = 0,n = 0;
-    char result[MAXC];
-    const char base[] = {'A', 'C', 'G', 'T'};
-    scanf("%d", &m);
-    scanf("%d", &n);
-    for(int i = 0; i < m; ++i){
-        scanf("%s", DNAs[i]);
-    }
+    int T;
+    scanf("%d", &T);
+    while(T--) {
+        int m = 0,n = 0;
+        char result[MAXC];
+        const char base[] = {'A', 'C', 'G', 'T'};
+        scanf("%d", &m);
+        scanf("%d", &n);
+        for(int i = 0; i < m; ++i){
+            scanf("%s", DNAs[i]);
+        }
 
-    int hamming = 0;
-    for(int j = 0; j < n; ++j){
-        int min = m;
-        for(int base_i = 0; base_i < 4; ++base_i){
-            int temp = 0;
-            for(int i = 0; i < m; ++i){
-                if(base[base_i] != DNAs[i][j]){
-                    ++temp;
+        int hamming = 0;
+        for(int j = 0; j < n; ++j){
+            int min = m;
+            for(int base_i = 0; base_i < 4; ++base_i){
+                int temp = 0;
+                for(int i = 0; i < m; ++i){
+                    if(base[base_i] != DNAs[i][j]){
+                        ++temp;
+                    }
+                }
+                if(temp < min){
+                    min = temp;
+                    result[j] = base[base_i];
                 }
             }
-            if(temp < min){
-                min = temp;
-                result[j] = base[base_i];
-            }
+            hamming += min;
         }
-        hamming += min;
+        result[n] = '\0';
+        printf("%s\n%d\n", result, hamming);
     }
-    result[n] = '\0';
-    printf("%s\n%d", result, hamming);
     return 0;
 }
