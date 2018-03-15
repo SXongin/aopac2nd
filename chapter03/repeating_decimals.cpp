@@ -6,42 +6,53 @@
 #include <cstdio>
 #include <cstring>
 #define MAX 3100
-char result[MAX];
+char tmp[MAX];
+char int_result[10];
+char result[56];
 int remainders[MAX] = {0};
-
+int sites[MAX] = {0};
+int length = 0;
 int main(void){
+#ifndef ONLINE_JUDGE
+    freopen("repeating_decimals_input.txt", "r", stdin);
+    freopen("repeating_decimals_output.txt", "w", stdout);
+#endif
     int a,b;
-    scanf("%d", &a);
-    scanf("%d", &b);
-    sprintf(result, "%d", a/b);
-    int int_length = strlen(result);
-    int remainder = a%b;
-    if(remainder == 0){
-        printf("not repeating decimals\n");
-        return 0;
-    }else{
+    while(scanf("%d%d", &a, &b) == 2){
+        memset(remainders, 0, MAX*sizeof(int));
+        memset(sites, 0, MAX*sizeof(int));
+        sprintf(int_result, "%d", a/b);
+        int remainder = a%b;
         ++remainders[remainder];
-        result[int_length] = '.';
-        result[int_length + 1] = '(';
-    }
-    int length = 1;
-    remainder *= 10;
-    for( ; ; remainder *= 10, ++length){
-        result[int_length + 1 + length] = remainder/b + 48;
-        remainder  %= b;
-        if(remainder == 0){
-            printf("not repeating decimals\n");
-            return 0;
-        }else{
+        remainder *= 10;
+        int site = 1;
+        for( ; ; remainder *= 10, ++site){
+            tmp[site - 1] = remainder/b + 48;
+            remainder  %= b;
             ++remainders[remainder];
             if(remainders[remainder] > 1){
+                length = site - sites[remainder];
                 break;
+            }else{
+                sites[remainder] = site;
             }
         }
+        tmp[site] = '\0';
+        if(sites[remainder] >= 50){
+            strncpy(result,tmp,50);
+        }else{
+            strncpy(result,tmp,sites[remainder]);
+            result[sites[remainder]] = '(';
+            if(site > 50){
+                strncpy(&result[sites[remainder] + 1],&tmp[sites[remainder]], 50 - sites[remainder]);
+                strcpy(&result[51],"...)");
+            }else{
+                strcpy(&result[sites[remainder] + 1],&tmp[sites[remainder]]);
+                strcat(result,")");
+            }
+        }
+        printf("%d/%d = %s.%s\n", a, b, int_result, result);
+        printf("   %d = number of digits in repeating cycle\n\n", length);
     }
-    result[int_length + 1 + length + 1] = ')';
-    result[int_length + 1 + length + 2] = '\0';
-    printf(result);
-    printf("\n%d\n", length);
     return 0;
 }
