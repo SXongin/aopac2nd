@@ -3,59 +3,65 @@
 * 问能够容纳它们的最短容器长度。
 */
 
-#define LOCAL
 #include <cstdio>
-#define MAX 100
+#include <cstring>
+#define MAX 100 + 10
 
 int container[3* MAX];
 int strip1[MAX];
 int strip2[MAX];
+char s1[MAX];
+char s2[MAX];
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("kickdown_input.txt", "r", stdin);
+    freopen("kickdown_output.txt", "w", stdout);
 #endif
-    int n1, n2;
-    scanf("%d%d", &n1, &n2);
-    for(int i = 0; i < n1; ++i){
-        scanf("%1d", &strip1[i]);
-    }
-    for(int i = 0; i < n2; ++i){
-        scanf("%1d", &strip2[i]);
-    }
-    int min = n1+n2;
-    for(int offset = 0; offset < n1+n2-1; ++offset){
-        int start = 0;
-        int end = offset;
-        if(offset >= n2){
-            end = n2 -1;
+    while(scanf("%s", s1) == 1){
+        scanf("%s", s2);
+        int n1 = strlen(s1);
+        int n2 = strlen(s2);
+        for(int i = 0; i < n1; ++i){
+           strip1[i] = s1[i] - '0';
         }
-        if(offset >= n1){
-            start = offset - n1 + 1;
+        for(int i = 0; i < n2; ++i){
+            strip2[i] = s2[i] - '0';
         }
+        int min = n1+n2;
+        for(int offset = 0; offset < n1+n2-1; ++offset){
+            int start = 0;
+            int end = offset;
+            if(offset >= n2){
+                end = n2 -1;
+            }
+            if(offset >= n1){
+                start = offset - n1 + 1;
+            }
 
-        bool ok = false;
-        int j;
-        for(j = start ; j <= end; ++j){
-            if(strip2[j] + strip1[n1 - offset + j -1] > 3) break; 
-        }
-        if(j > end){
-            ok = true;
-        }else{
+            bool ok = false;
+            int j;
             for(j = start ; j <= end; ++j){
-                if(strip2[j] + strip1[offset - j] > 3) break; 
+                if(strip2[j] + strip1[n1 - offset + j -1] > 3) break; 
             }
             if(j > end){
                 ok = true;
+            }/*else{
+                for(j = start ; j <= end; ++j){
+                    if(strip2[j] + strip1[offset - j] > 3) break; 
+                }
+                if(j > end){
+                    ok = true;
+                }
+            }*/
+
+            if(ok){
+                int length =n1 + n2 -(end - start + 1);
+                if(length < min) min = length;
             }
-        }
 
-        if(ok){
-            int length =n1 + n2 -(end - start + 1);
-            if(length < min) min = length;
         }
-
+        printf("%d\n", min);
     }
-    printf("%d\n", min);
     return 0;
 }
