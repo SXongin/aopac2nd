@@ -30,41 +30,47 @@ bool EqualRect(Rect l, Rect r){
 Rect rects[6];
 
 int main(void){
-    for(int i = 0; i < 6; ++i){
-        int w, h;
-        scanf("%d%d", &w, &h);
-        if(w<h){
-            int t = w;
-            w = h;
-            h = t;
+#ifndef ONLINE_JUDGE
+    freopen("box_input.txt", "r", stdin);
+    freopen("box_output.txt", "w", stdout);
+#endif
+    int w,h;
+    while(scanf("%d%d", &w, &h) == 2){
+        for(int i = 0; i < 6; ++i){
+            if(i != 0) scanf("%d%d", &w, &h);
+            if(w<h){
+                int t = w;
+                w = h;
+                h = t;
+            }
+            rects[i].w = w;
+            rects[i].h = h;
         }
-        rects[i].w = w;
-        rects[i].h = h;
-    }
 
-    for(int i = 0; i < 6 -1; ++i){
-        for(int j = 0; j < 6-i-1; ++j){
-            if(Less(rects[j+1], rects[j])){
-                SwapRect(&rects[j+1], &rects[j]);
+        for(int i = 0; i < 6 -1; ++i){
+            for(int j = 0; j < 6-i-1; ++j){
+                if(Less(rects[j+1], rects[j])){
+                    SwapRect(&rects[j+1], &rects[j]);
+                }
             }
         }
-    }
 
-    bool ok = true;
-    for(int i = 0; i < 6; i+=2){
-        if(!EqualRect(rects[i], rects[i+1])){
-            ok = false;
+        bool ok = true;
+        for(int i = 0; i < 6; i+=2){
+            if(!EqualRect(rects[i], rects[i+1])){
+                ok = false;
+            }
         }
-    }
 
-    if(rects[0].h != rects[2].h) ok = false;
-    if(rects[0].w != rects[4].h) ok = false;
-    if(rects[2].w != rects[4].w) ok = false;
+        if(rects[0].h != rects[2].h) ok = false;
+        if(rects[0].w != rects[4].h) ok = false;
+        if(rects[2].w != rects[4].w) ok = false;
 
-    if(!ok){
-        printf("no\n"); return 0;
-    }else{
-        printf("yes\n"); return 0;
+        if(!ok){
+            printf("IMPOSSIBLE\n");
+        }else{
+            printf("POSSIBLE\n");
+        }
     }
 }
 
