@@ -4,20 +4,43 @@
 */
 
 #include <cstdio>
-#define MAX 10000
+#define MAX 100005
 char s[MAX];
 char t[MAX];
 
 int main(void){
-    scanf("%s", s);
-    scanf("%s", t);
-    int j = 0;
-    for(int i = 0; s[i] != '\0'; ++i ){
-        for( ; s[i]!=t[j] && t[j] !='\0'; ++j) {;}
-        if(t[j] == '\0'){
-            printf("no\n");return 0;
+#ifndef ONLINE_JUDGE
+    freopen("all_in_all_input.txt", "r", stdin);
+    freopen("all_in_all_output.txt", "w", stdout);
+#endif
+    while(scanf("%s", s) != EOF){
+        scanf("%s", t);
+        int j = 0;
+        int i = 0;
+        for( ; s[i] != '\0'; ++i ){
+            for( ; s[i]!=t[j] && t[j] !='\0'; ++j) {;}
+            if(t[j] == '\0'){
+                printf("No\n");break;
+            }
+            ++j;
         }
+        if(s[i] == '\0'){
+            printf("Yes\n");
+        }//*/
+        /*int i = 0;
+        int j = 0;
+        for(; t[j] != '\0'; ++j){
+            if (s[i] == t[j]){
+                ++i;
+            }
+            if(s[i]=='\0'){
+                printf("Yes\n");
+                break;
+            }
+        }
+        if(s[i] != '\0'){
+            printf("No\n");
+        }//*/
     }
-    printf("yes\n");
     return 0;
 }
