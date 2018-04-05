@@ -26,12 +26,16 @@ using std::lower_bound;
 using std::sort;
 
 int main(void){
+#ifndef ONLINE_JUDGE
+    freopen("where_is_the_marble_input.txt", "r", stdin);
+    freopen("where_is_the_marble_output.txt", "w", stdout);
+#endif
     vector<int> marbles;
     marbles.reserve(50);
     int n, q, kase = 1;
     int x;
     while(scanf("%d%d", &n, &q) == 2 && n != 0){
-        printf("CASE$ %d\n", kase);
+        printf("CASE# %d:\n", kase);
         ++kase;
         marbles.clear();
         for(int i = 0; i < n; ++i){
