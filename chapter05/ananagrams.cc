@@ -24,8 +24,9 @@ string stand(string word){
 }
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("ananagrams_input.txt", "r", stdin);
+    freopen("ananagrams_output.txt", "w", stdout);
 #endif
     std::vector<string> words;
     string word;
@@ -35,7 +36,7 @@ int main(void){
         words.push_back(word);
         ++cnt[stand(word)];
     }
-    std::multiset<string> ans;
+    std::set<string> ans;
     for(auto& word : words){
         if(cnt[stand(word)] == 1){
             ans.insert(word);
@@ -43,9 +44,7 @@ int main(void){
     }
 
     for(auto& word : ans){
-        cout<<word<<"\t";
+        cout<<word<<std::endl;
     }
-    cout<<std::endl;
-
     return 0;
 }
