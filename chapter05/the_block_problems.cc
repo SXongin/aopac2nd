@@ -24,9 +24,9 @@ vector<vector<int> > piles;
 
 void print_piles(){
     for(int i = 0; i < piles.size(); ++i){
-        cout<<"piles"<<i<<": ";   
+        cout<<i<<":";   
         for(auto&& blocks: piles[i]){
-            cout<<blocks<<" ";
+            cout<< " "<< blocks;
        }
        cout<<endl;
     }
@@ -47,7 +47,7 @@ void find_block(vector<vector<int> >::iterator& itr_pile,
 
 void clear_above(vector<vector<int> >::iterator& itr_pile, vector<int>::iterator& itr_block){
     for(auto itr = itr_block + 1; itr != itr_pile->end(); ++itr){
-        piles[*itr].push_back(move(*itr));
+        piles[*itr].push_back(*itr);
     }
     itr_pile->resize(itr_block - itr_pile->begin() + 1);
 }
@@ -55,12 +55,17 @@ void clear_above(vector<vector<int> >::iterator& itr_pile, vector<int>::iterator
 void pile_over(vector<vector<int> >::iterator& itr_pa, vector<vector<int> >::iterator& itr_pb, 
                vector<int>::iterator itr_a){
     for(auto itr_block = itr_a; itr_block!= itr_pa->end(); ++itr_block){
-        itr_pb->push_back(move(*itr_block));
+        itr_pb->push_back(*itr_block);
     }
     itr_pa->resize(itr_a - itr_pa->begin());
 }
 int main(void){
-    const int kMaxn = 20;
+#ifndef ONLINE_JUDGE
+    freopen("the_block_problems_input.txt", "r", stdin);
+    freopen("the_block_problems_output.txt", "w", stdout);
+#endif
+    std::ios::sync_with_stdio(false);
+    const int kMaxn = 30;
     piles.reserve(kMaxn);
     int n;
     cin>>n;
@@ -68,17 +73,18 @@ int main(void){
     for(int i = 0; i < n; ++i){
         vector<int> vecint(1, i);
         vecint.reserve(kMaxn);
-        piles.push_back(move(vecint));
+        piles.push_back(vecint);
     }
-    print_piles();
+    //print_piles();
     int a, b;
     string s1, s2;
-    while(cin>>s1>>a>>s2>>b){
+    while(cin >> s1 && s1 != "quit"){
+        cin >> a >> s2 >> b;
         vector<vector<int> >::iterator itr_pa, itr_pb;
         vector<int>::iterator itr_a, itr_b;
         find_block(itr_pa, itr_a, a);
         find_block(itr_pb, itr_b, b);
-        if(std::distance(itr_pa, itr_pb) == 0) break;
+        if(std::distance(itr_pa, itr_pb) == 0) continue;
         if(s1 == "move") clear_above(itr_pa, itr_a);
         if(s2 == "onto") clear_above(itr_pb, itr_b);
         pile_over(itr_pa, itr_pb, itr_a);
