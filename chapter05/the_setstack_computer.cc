@@ -25,35 +25,44 @@ int get_id(Set set){
     if(id_cache.count(set)) return id_cache[set];
     else{
         set_cache.push_back(set);
-        return set_cache.size() - 1;
+        return id_cache[set] = set_cache.size() - 1;
     }
 }
 
 int main(void){
-    std::stack<int> set_stack;
-    std::string op;
-    int n;
-    std::cin>>n;
-    while(n--){
-        std::cin >> op;
-        if(op[0] == 'P') set_stack.push(get_id(Set()));
-        else if(op[0] == 'D') set_stack.push(set_stack.top());
-        else{
-            Set s1, s2;
-            Set s;
-            s1 = set_cache[set_stack.top()];
-            set_stack.pop();
-            s2 = set_cache[set_stack.top()];
-            set_stack.pop();
-            if(op[0] == 'U') std::set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), std::inserter(s, s.begin()));
-            else if(op[0] == 'I') std::set_intersection(s1.begin(), s1.end(), s2.begin(), s2.end(), std::inserter(s, s.begin()));
-            else if(op[0] == 'A') {
-                s = s2;
-                s.insert(get_id(s1));
+#ifndef ONLINE_JUDGE
+    freopen("the_setstack_computer_input.txt", "r", stdin);
+    freopen("the_setstack_computer_output.txt", "w", stdout);
+#endif
+    int kase;
+    std::cin >> kase;
+    while(kase--){
+        std::stack<int> set_stack;
+        std::string op;
+        int n;
+        std::cin>>n;
+        while(n--){
+            std::cin >> op;
+            if(op[0] == 'P') set_stack.push(get_id(Set()));
+            else if(op[0] == 'D') set_stack.push(set_stack.top());
+            else{
+                Set s1, s2;
+                Set s;
+                s1 = set_cache[set_stack.top()];
+                set_stack.pop();
+                s2 = set_cache[set_stack.top()];
+                set_stack.pop();
+                if(op[0] == 'U') std::set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), std::inserter(s, s.begin()));
+                else if(op[0] == 'I') std::set_intersection(s1.begin(), s1.end(), s2.begin(), s2.end(), std::inserter(s, s.begin()));
+                else if(op[0] == 'A') {
+                    s = s2;
+                    s.insert(get_id(s1));
+                }
+                set_stack.push(get_id(s));
             }
-            set_stack.push(get_id(s));
+            std::cout<<set_cache[set_stack.top()].size()<<std::endl;
         }
-        std::cout<<set_cache[set_stack.top()].size()<<std::endl;
+        std::cout << "***" << std::endl;
     }
     return 0;
 }
