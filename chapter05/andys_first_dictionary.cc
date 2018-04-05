@@ -16,6 +16,10 @@ using std::islower;
 using std::stringstream;
 
 int main(void){
+#ifndef ONLINE_JUDGE
+    freopen("andys_first_dictionary_input.txt", "r", stdin);
+    freopen("andys_first_dictionary_output.txt", "w", stdout);
+#endif
     set<string> dict;
     string s;
     while(cin >> s){
@@ -32,9 +36,8 @@ int main(void){
         dict.insert(tmps);
     }
     }
-    for(auto word: dict){
-        cout<<word<<"\t";
+    for(const auto& word: dict){
+        cout<<word<<std::endl;
     }
-    cout<<std::endl;
     return 0;
 }
