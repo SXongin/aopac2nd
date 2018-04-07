@@ -11,7 +11,7 @@ class BigInteger {
     friend BigInteger operator+(const BigInteger& lhs, const BigInteger& rhs);
     friend BigInteger operator-(const BigInteger& lhs, const BigInteger& rhs);
     friend BigInteger operator*(const BigInteger& lhs, const BigInteger& rhs);
-    friend BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs); /*TODO: the division of BigInteger*/
+    friend BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs); /*TODO: the division of BigInteger, may ref(https://rosettacode.org/wiki/Polynomial_long_division)*/
 
     friend bool operator==(const BigInteger& lhs, const BigInteger& rhs);
     friend bool operator!=(const BigInteger& lhs, const BigInteger& rhs);
