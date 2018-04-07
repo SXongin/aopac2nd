@@ -120,3 +120,45 @@ BigInteger operator*(const BigInteger& lhs, const BigInteger& rhs)
     result.remove_ahead_zero();
     return result;
 }
+
+// BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs){
+//     BigInteger result;
+//     result.number.clear();
+//     return result;
+// }
+
+bool operator==(const BigInteger& lhs, const BigInteger& rhs)
+{
+    if (lhs.number.size() != rhs.number.size()) return false;
+    for (auto itrl = lhs.number.begin(), itrr = rhs.number.begin();
+         itrl != lhs.number.end() && itrr != rhs.number.end(); ++itrl, ++itrr) {
+        if (*itrl != *itrr) return false;
+    }
+    return true;
+}
+
+bool operator!=(const BigInteger& lhs, const BigInteger& rhs) { return !(lhs == rhs); }
+
+bool operator<(const BigInteger& lhs, const BigInteger& rhs)
+{
+    if (lhs.number.size() != rhs.number.size()) return lhs.number.size() < rhs.number.size();
+    for (auto itrl = lhs.number.rbegin(), itrr = rhs.number.rbegin();
+         itrl != lhs.number.rend() && itrr != rhs.number.rend(); ++itrl, ++itrr) {
+        if (*itrl != *itrr) return *itrl < *itrr;
+    }
+    return false;
+}
+
+bool operator>(const BigInteger& lhs, const BigInteger& rhs)
+{
+    if (lhs.number.size() != rhs.number.size()) return lhs.number.size() > rhs.number.size();
+    for (auto itrl = lhs.number.rbegin(), itrr = rhs.number.rbegin();
+         itrl != lhs.number.rend() && itrr != rhs.number.rend(); ++itrl, ++itrr) {
+        if (*itrl != *itrr) return *itrl > *itrr;
+    }
+    return false;
+}
+
+bool operator<=(const BigInteger& lhs, const BigInteger& rhs) { return !(lhs > rhs); }
+
+bool operator>=(const BigInteger& lhs, const BigInteger& rhs) { return !(lhs < rhs); }

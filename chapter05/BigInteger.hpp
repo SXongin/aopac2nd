@@ -7,10 +7,18 @@
 class BigInteger {
     friend std::ostream& operator<<(std::ostream& os, const BigInteger& big_integer);
     friend std::istream& operator>>(std::istream& is, BigInteger& big_integer);
+
     friend BigInteger operator+(const BigInteger& lhs, const BigInteger& rhs);
     friend BigInteger operator-(const BigInteger& lhs, const BigInteger& rhs);
     friend BigInteger operator*(const BigInteger& lhs, const BigInteger& rhs);
-    friend BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs);
+    friend BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs); /*TODO: the division of BigInteger*/
+
+    friend bool operator==(const BigInteger& lhs, const BigInteger& rhs);
+    friend bool operator!=(const BigInteger& lhs, const BigInteger& rhs);
+    friend bool operator<(const BigInteger& lhs, const BigInteger& rhs);
+    friend bool operator>(const BigInteger& lhs, const BigInteger& rhs);
+    friend bool operator<=(const BigInteger& lhs, const BigInteger& rhs);
+    friend bool operator>=(const BigInteger& lhs, const BigInteger& rhs);
 
    private:
     static const int kBase  = 100000000;
@@ -32,5 +40,13 @@ std::istream& operator>>(std::istream& is, BigInteger& big_integer);
 BigInteger operator+(const BigInteger& lhs, const BigInteger& rhs);
 BigInteger operator-(const BigInteger& lhs, const BigInteger& rhs);
 BigInteger operator*(const BigInteger& lhs, const BigInteger& rhs);
+//BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs);
+
+bool operator==(const BigInteger& lhs, const BigInteger& rhs);
+bool operator!=(const BigInteger& lhs, const BigInteger& rhs);
+bool operator<(const BigInteger& lhs, const BigInteger& rhs);
+bool operator>(const BigInteger& lhs, const BigInteger& rhs);
+bool operator<=(const BigInteger& lhs, const BigInteger& rhs);
+bool operator>=(const BigInteger& lhs, const BigInteger& rhs);
 
 #endif
