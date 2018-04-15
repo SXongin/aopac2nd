@@ -21,7 +21,6 @@
 * (e(f()g()))
 */
 
-#define LOCAL
 #include <cstdio>
 #include <cstring>
 #include <cctype>
@@ -32,11 +31,11 @@ int height;
 
 void dfs(int r, int c){
     printf("%c(", tree[r][c]);
-    if(r+3 <= height && tree[r+1][c] == '|'){
+    if(r+3 < height && tree[r+1][c] == '|'){
         int i = c;
         while(tree[r+2][i-1] >= 0 && tree[r+2][i-1] == '-') --i;
-        for( ;tree[r+2][i] == '-'; ++i){
-            if(!isspace(tree[r+3][i])) dfs(r+3, i);
+        for( ;tree[r+2][i] == '-' && tree[r+3][i] != '\0'; ++i){
+            if(!isspace(tree[r+3][i]) && tree[r+3][i] != '|' && tree[r+3][i] != '-' && tree[r+3][i] != '#') dfs(r+3, i);
         }
     }
     printf(")");
@@ -50,18 +49,21 @@ void start(void){
         ++height;
     }
     putchar('(');
-    for(int i = 0; i < strlen(tree[0]); ++i){
-        if(tree[0][i] != ' ') {
-            dfs(0, i);
-            break;
+    if(height > 0) {
+        for(int i = 0; i < strlen(tree[0]); ++i){
+            if(tree[0][i] != ' ' && tree[0][i] != '|' && tree[0][i] != '-' && tree[0][i] != '#') {
+                dfs(0, i);
+                break;
+            }
         }
     }
     putchar(')');
 }
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("undraw_the_trees_input.txt", "r", stdin);
+    freopen("undraw_the_trees_output.txt", "w", stdout);
 #endif
     memset(tree, 0, kMax*kMax*sizeof(char));
     fgets(tree[0], kMax, stdin);
