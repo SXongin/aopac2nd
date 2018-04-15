@@ -10,10 +10,9 @@
 * 2 4 4 2
 * 1 6 3 2
 * 样例输出：
-* yes
+* YES
 */
 
-#define LOCAL
 #include <iostream>
 
 bool is_balance(int& W){
@@ -27,15 +26,19 @@ bool is_balance(int& W){
 }
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("not_so_mobile_input.txt", "r", stdin);
+    freopen("not_so_mobile_output.txt", "w", stdout);
 #endif
     int n;
     int W;
     std::cin >> n;
     while(n>0){
         --n;
-        if(is_balance(W)) std::cout<<"yes"<<std::endl;
-        else std::cout<<"no"<<std::endl;
+        if(is_balance(W)) std::cout<<"YES"<<std::endl;
+        else std::cout<<"NO"<<std::endl;
+        if(n != 0){
+            std::cout<<std::endl;
+        }
     }
 }
