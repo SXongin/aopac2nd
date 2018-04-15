@@ -18,7 +18,6 @@
 * There are 384 black pixels.
 */
 
-#define LOCAL
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -47,8 +46,9 @@ void draw(int& p, int r, int c, int w){
     }
 }
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("quardtrees_input.txt", "r", stdin);
+    freopen("quardtrees_output.txt", "w", stdout);
 #endif
     s.reserve(MAXN);
     int n;
@@ -62,7 +62,7 @@ int main(void){
             int p =0;
             draw(p,0,0,LEN);
         }
-        std::cout<<"There are "<<cnt<<" black pixels"<<std::endl;
+        std::cout<<"There are "<<cnt<<" black pixels."<<std::endl;
     }
     return 0;
 }
