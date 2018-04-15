@@ -13,7 +13,6 @@
 * 9 7 21 15
 */
 
-#define LOCAL
 #include <iostream>
 #include <cstring>
 const int kMaxn = 10000;
@@ -31,7 +30,7 @@ void build(int p){
 bool init(){
     int v;
     std::cin>>v;
-    if( v == -1) return false;
+    if(v == -1) return false;
     memset(sum,0,sizeof(int)*kMaxn);
     int p = kMaxn/2;
     sum[p] += v;
@@ -41,20 +40,22 @@ bool init(){
 }
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("the_falling_leaves_input.txt", "r", stdin);
+    freopen("the_falling_leaves_output.txt", "w", stdout);
 #endif
     int kase = 1;
     while(init()){
+        static bool first = true;
         int p = 0;
         while(sum[p] == 0) ++p;
-        std::cout<<"Case "<<kase<<" :"<<std::endl<<sum[p];
+        std::cout<<"Case "<<kase<<":"<<std::endl<<sum[p];
         ++p; ++kase;
         while(sum[p]!=0){
             std::cout<<" "<<sum[p];
             ++p;
         }
-        std::cout<<std::endl;
+        std::cout<< std::endl << std::endl;
     }
     return 0;
 }
