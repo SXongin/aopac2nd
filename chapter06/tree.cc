@@ -1,7 +1,7 @@
 /*UVa 548
-* 给一颗点带权（权值各不相同，都是小于10000的正整数）的二叉树的中序遍历和后序遍历，找一个叶子使得它到根上的路径的圈和最小。
+* 给一颗点带权（权值各不相同，都是小于10000的正整数）的二叉树的中序遍历和后序遍历，找一个叶子使得它到根上的路径的和最小。
 * 如果有多解，该叶子本身的权应该尽量小。
-* 输入中没两行表示一棵树，其中第一行为中序遍历，第二行为后序遍历。
+* 输入中每两行表示一棵树，其中第一行为中序遍历，第二行为后序遍历。
 * 样例输入：
 * 3 2 1 4 5 7 6
 * 3 1 2 5 6 7 4
@@ -15,7 +15,6 @@
 * 255
 */
 
-#define LOCAL
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -66,14 +65,15 @@ void dfs(int root, int sum){
 }
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("tree_input.txt", "r", stdin);
+    freopen("tree_output.txt", "w", stdout);
 #endif
     while(read_list(in_order)){
         read_list(post_order);
         build(0, n-1, 0, n-1);
         best = MAXN;
-        min_sum = MAXN;
+        min_sum = MAXN * MAXN;
         int sum = 0;
         dfs(post_order[n-1], sum);
         std::cout<< best;
