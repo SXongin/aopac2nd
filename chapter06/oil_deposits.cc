@@ -12,7 +12,6 @@
 * 2
 */
 
-#define LOCAL
 #include <cstdio>
 #include <cstring>
 
@@ -22,7 +21,7 @@ int idx[MAXN][MAXN];
 int m, n;
 
 void dfs(int r, int c, int cnt){
-    if(r<0 || r > m || c < 0 || c >n) return;
+    if(r < 0 || r >= m || c < 0 || c >= n) return;
     if(idx[r][c] > 0 || pic[r][c] != '@') return;
     idx[r][c] = cnt;
     for(int dr = -1; dr < 2; ++dr)
@@ -32,14 +31,15 @@ void dfs(int r, int c, int cnt){
 }
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("oil_deposits_input.txt", "r", stdin);
+    freopen("oil_deposits_output.txt", "w", stdout);
 #endif
     while(scanf("%d%d", &m, &n) == 2 && m > 0 && n>0){
         for(int i = 0; i < m; ++i){
             scanf("%s", pic[i]);
         }
-        memset(idx, 0, m*n*sizeof(int));
+        memset(idx, 0, MAXN*MAXN*sizeof(int));
         int cnt = 0;
         for(int i = 0; i < m; ++i)
             for(int j = 0; j < n; ++j){
