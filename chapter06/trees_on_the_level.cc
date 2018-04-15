@@ -1,15 +1,14 @@
 /*UVa 122
 * 输入一颗二叉树，你的任务是按照从上到下，从左到右的顺序输出各个结点的值。每个结点都按照从根结点到它的移动序列给出（L表示左， R表示右）
 * 在输入中，每个结点的左括号和右括号之间没有空格，相邻结点之间用一个空格隔开。每个树的输入用一对空括号表示表示结束（这一对括号本身不代表一个结点）
-* 注意如果从根到某个叶结点的路径上有的结点没有在输入中给出，或者给出超过一次，应当输出-1.结点个数不超过256.
+* 注意如果从根到某个叶结点的路径上有的结点没有在输入中给出，或者给出超过一次，应当输出complete.结点个数不超过256.
 * 样例输入：
 * (11,LL) (7,LLL) (8,R) (5,) (4,L) (13,RL) (2,LLR) (1,RRR) (4,RR) ()
 * (3,L) (4,R) ()
 * 样例输出
 * 5 4 8 11 13 4 7 2 11
-* -1
+* not complete
 */
-#define LOCAL
 
 #include <cstdio>
 #include <cstring>
@@ -51,6 +50,7 @@ void add_node(int value, char* path){
 }
 
 bool read_node(){
+    ok = true;
     root = new Node();
     for(;;){
         if(scanf("%s", node)!=1) return false;
@@ -85,17 +85,19 @@ bool bfs(std::vector<int>& ans){
 }
 
 int main(void){
-#ifdef LOCAL
+#ifndef ONLINE_JUDGE
     freopen("trees_on_the_level_input.txt", "r", stdin);
+    freopen("trees_on_the_level_output.txt", "w", stdout);
 #endif
     while(read_node()){
         std::vector<int> ans;
         if(ok && bfs(ans)){
-            for(auto i: ans){
-                printf("%d ",i);
+            for(auto itr = ans.cbegin(); itr != ans.cend(); ++itr){
+                if(itr != ans.cbegin()) printf(" ");
+                printf("%d", *itr);
             }
         }else{
-            printf("-1");
+            printf("not complete");
         }
         free_node(root);
         printf("\n");
