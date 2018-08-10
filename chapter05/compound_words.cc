@@ -9,7 +9,7 @@
 const int KAlphabetSize = 26;
 std::array<std::set<std::string>, KAlphabetSize> dict;
 
-bool cover(std::string word, std::string in_word)
+inline bool cover(std::string word, std::string in_word)
 {
     return (word.size() > in_word.size()) && (word.substr(0, in_word.size()) == in_word);
 }
