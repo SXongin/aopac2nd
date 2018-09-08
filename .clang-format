@@ -18,4 +18,3 @@ BraceWrapping:
   AfterControlStatement: false
   AfterFunction: true
 ColumnLimit: 120
-
